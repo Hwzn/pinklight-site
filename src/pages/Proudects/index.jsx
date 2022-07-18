@@ -50,7 +50,7 @@ function Proudects() {
       
             <div className="row">
               <div className="col-lg-3 col-md-12">
-                <Fillter/>
+                <Fillter setProducts={setProducts} setLoading={setLoading}/>
               </div>
               <div className="col-lg-9 col-md-12">
                 <AllProudect products={products} setpageCount={setpageCount} pageCount={pageCount}/>

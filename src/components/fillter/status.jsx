@@ -12,7 +12,9 @@ function Status(props) {
 
   return (
     <div className='fillter__status'>
+    <div className="title">
     <h4>الحاله</h4>
+    </div>
         <ul>
           <li>
             <input type="checkbox" value="جديد" name="status" onChange={handleChange} 

@@ -12,7 +12,9 @@ function Brands(props) {
 
   return (
     <div className='fillter__brands'>
+    <div className="title">
         <h4>الماركه</h4>
+    </div>
         <ul>
           <li>
             <input type="checkbox" value="اتش اند ام" name="brands" onChange={handleChange} 

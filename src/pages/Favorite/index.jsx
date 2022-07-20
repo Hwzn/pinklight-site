@@ -1,39 +1,36 @@
 import React, { useState, useEffect } from "react";
 import Cardfavorite from "../../components/favorite/index.jsx";
-import Imgcardone from "../../images/favorite/img-1.png";
-import Imgcardtwo from "../../images/favorite/img-2.png";
 import axios from "axios";
 import { Api } from "../../api/index.js";
+import Loading from "../../layout/loading/loading.jsx";
 
 
 function Favorite() {
-  const [data, setData] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const fetchPost = async () => {
+  useEffect(() => {
     const  options = {
       method: "get",
       url: `${Api}favourites`,
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json;charset=UTF-8",
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`, 
       },
     };
-    await axios(options).then(function (response) {
+     axios(options).then(function (response) {
+       setLoading(true);
       console.log("handle success");
       console.log(response.data);
+      setProducts(response.data)
     })
     .catch(function (error) {
       console.log("handle error");
       console.log(error.response.data);
     });
-  };
-
-
-  useEffect(() => {
-    fetchPost();
-  }, []);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading,products]);
   return (
     <section className="favorite">
       <div className="container">
@@ -43,12 +40,17 @@ function Favorite() {
 
         <div className="favorite__items">
           <div className="row">
-            <div className="col-sm-12 col-md-6 col-lg-4">
-            <Cardfavorite Image={Imgcardone} Title={"فستان برباط أمامى باكمام فانوس بعنق..."} Price={"76.00"}/>
+
+          {loading === false ? ( <Loading/>) :
+            <>
+           {products.map(item=>
+            <div className="col-sm-12 col-md-6 col-lg-4" key={item.product.id}>
+            <Cardfavorite Image={item.product.image} Title={item.product.title} Price={item.product.price} Id={item.product.id}/>
             </div>
-            <div className="col-sm-12 col-md-6 col-lg-4">
-            <Cardfavorite Image={Imgcardtwo} Title={"فستان برباط أمامى باكمام فانوس بنق..."} Price={"76.00"}/>
-            </div>
+            
+            )}
+            </>
+            }
           </div>
         </div>
       </div>
